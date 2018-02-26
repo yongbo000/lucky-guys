@@ -1,0 +1,10 @@
+{
+  "extends": "eslint-config-egg",
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "globals": {
+    "window": true,
+  }
+}

@@ -1,0 +1,92 @@
+html,body,.app {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+.bless-block {
+  height: 100%;
+  .avatar, .avatar img {
+    display: block;
+    width: 1.2rem;
+  }
+  .avatar img {
+    height: 1.2rem;
+    border-radius: 50%;
+  }
+  .avatar {
+    margin: 0 auto;
+    margin-top: 0.5rem;
+  }
+  .words {
+    p {
+      line-height: 2;
+      text-align: center;
+      font-size: 0.32rem;
+    }
+    margin-top: 0.3rem;
+    margin-bottom: 0.3rem;
+  }
+  .err-tip {
+    padding: 0.3rem 0;
+    font-size: 0.32rem;
+    text-align: center;
+    color: #808080;
+  }
+  .fixed-btm {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    padding: 0.2rem 0;
+    box-shadow: 0 0px 5px rgba(0,0,0,.2);
+  }
+  .input, .post-btn {
+    display: block;
+    text-align: center;
+    font-size: 0.36rem;
+  }
+  .input {
+    width: 100%;
+    height: 0.8rem;
+    background: #fff;
+    border: none 0;
+    border: 0.01rem #c9c9c9 solid;
+  }
+  .post-btn {
+    border-top: 0.01rem #ccc solid;
+    height: 1rem;
+    line-height: 1rem;
+    color: #fff;
+    width: 95%;
+    margin: 0 auto;
+    background: rgb(177, 41, 41);
+    border-radius: 0.1rem;
+  }
+  .post-btn.disabled {
+    background: #ccc;
+    color: #808080;
+  }
+}
+.dm-item {
+  position: fixed;
+  background: rgba(0,0,0,0.6);
+  padding: 0.05rem 0.1rem;
+  display: block;
+  border-radius: 0.05rem;
+  z-index: 999;
+  font-size: 0.3rem;
+  img {
+    height: 0.5rem;
+    width: 0.5rem;
+    display: block;
+    position: absolute;
+    border-radius: 50%;
+    left: -0.55rem;
+    top: 0.03rem;
+  }
+  span {
+    color: #fff;
+    white-space: pre;
+  }
+}
