@@ -90,3 +90,45 @@ html,body,.app {
     white-space: pre;
   }
 }
+
+.tx-block {
+  padding: 0.2rem;
+  h3 {
+    font-size: 0.4rem;
+    color: #666;
+  }
+  .option {
+    font-size: 0.32rem;
+    span {
+      color: #999;
+      display: inline-block;
+      padding: 0.05rem 0.1rem;
+      font-weight: 400;
+    }
+    input[type="checkbox"] {
+      display: none;
+      &:checked + span {
+        color: #f60;
+        border: 0.01rem #f60 solid;
+        margin: -0.01rem;
+        border-radius: 0.05rem;
+      }
+    }
+  }
+}
+
+@keyframes scale {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animscale {
+  animation: scale 1s infinite linear;
+}

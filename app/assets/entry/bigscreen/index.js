@@ -2,8 +2,6 @@ import './index.less';
 import Ractive from 'ractive';
 import EventSource from 'eventsource';
 import { popDm, proxy } from '../../util';
-import jQuery from 'jquery';
-
 
 const ractive = Ractive({
   target: '#app',
@@ -35,12 +33,12 @@ const ractive = Ractive({
     },
     popDm() {
       const dmQueue = this.get('dmQueue');
-      while(dmQueue.length) {
+      while (dmQueue.length) {
         const dm = dmQueue.shift();
         popDm(dm);
-      } 
+      }
     },
-    joined(data) {
+    joined() {
 
     },
     postBless(data) {

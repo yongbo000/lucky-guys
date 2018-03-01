@@ -20,7 +20,7 @@ module.exports = app => {
       }
       app.eventsource.broadcast('joined', JSON.stringify(user));
     }
-  
+
     async bless() {
       const { ctx } = this;
       await ctx.render('bless.html');
