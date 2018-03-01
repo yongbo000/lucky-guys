@@ -12,3 +12,4 @@ run/
 *.un~
 dist/
 sftp-config.json
+.vscode
