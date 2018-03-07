@@ -36,7 +36,7 @@ const ractive = Ractive({
     name: 'jambo',
     blessWords: '',
     errMsg: '',
-    aliveCounts: 0,
+    aliveCounts: '--',
     magics: {
       largefont: false,
       colorfull: false,
