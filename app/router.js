@@ -1,7 +1,6 @@
 module.exports = app => {
-  app.get('/bigscreen.html', app.controller.dispatch.bigscreen);
-  app.post('/postBless.json', app.controller.dispatch.postBless);
-  app.get('/bless.html', app.controller.dispatch.bless);
-
-  app.get('/oauth/callback', app.controller.dispatch.joined);
+  const { middleware, router } = app;
+  router.get('/bigscreen.html', app.controller.dispatch.bigscreen);
+  router.post('/postBless.json', middleware.needLogin(), app.controller.dispatch.postBless);
+  router.get('/bless.html', middleware.needLogin(), app.controller.dispatch.bless);
 };
