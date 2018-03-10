@@ -2,6 +2,7 @@ import './index.less';
 import Ractive from 'ractive';
 import keys from 'ractive-events-keys';
 import EventSource from 'eventsource';
+import context from 'context';
 import { postBless } from '../../service';
 import { popDm, proxy } from '../../util';
 
@@ -9,7 +10,7 @@ const ractive = Ractive({
   target: '#app',
   template: `<div class="bless-block">
     <div class="avatar">
-      <img src="http://cdn-dolphinwit.oss-cn-beijing.aliyuncs.com/images/pc/default_avatar.png" />
+      <img src="{{avatar}}" />
     </div>
     <div class="words">
       <p class="wxname">你好，{{name}}</p>
@@ -33,7 +34,8 @@ const ractive = Ractive({
   },
   data: {
     dmQueue: [],
-    name: 'jambo',
+    avatar: context.avatar,
+    name: context.nickname,
     blessWords: '',
     errMsg: '',
     aliveCounts: '--',
