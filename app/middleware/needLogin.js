@@ -1,5 +1,12 @@
 module.exports = () => {
   return async function(ctx, next) {
+    if (ctx.app.config.env === 'local') {
+      ctx.user = {
+        avatar: 'http://cdn-dolphinwit.oss-cn-beijing.aliyuncs.com/lucky-guys/images/default_avatar.jpg',
+        nickname: '--',
+      };
+      return await next();
+    }
     const avatar = ctx.getCookie('u_avatar');
     const nickname = ctx.getCookie('u_nickname');
 
@@ -11,10 +18,10 @@ module.exports = () => {
     }
 
     ctx.user = {
-      avatar,
-      nickname,
+      avatar: decodeURIComponent(avatar),
+      nickname: decodeURIComponent(nickname),
     };
-    
+
     await next();
   };
 };

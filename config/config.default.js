@@ -4,6 +4,8 @@ module.exports = appInfo => {
   const baseAppDir = appInfo.baseDir;
   const exports = {};
 
+  exports.proxy = true;
+
   exports.middleware = [
     'responseWrapper',
   ];
