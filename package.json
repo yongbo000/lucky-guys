@@ -19,6 +19,7 @@
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.0.0-beta.39",
     "@babel/runtime": "^7.0.0-beta.39",
+    "alioss-upload": "^0.0.1",
     "autod": "^3.0.1",
     "autod-egg": "^1.0.0",
     "babel-eslint": "^8.2.1",
@@ -44,7 +45,8 @@
     "lint": "eslint .",
     "ci": "npm run lint && npm run cov",
     "autod": "autod",
-    "build": "rm -rf ./dist && staticlocal-build --env prod"
+    "build": "rm -rf ./dist && staticlocal-build --env prod",
+    "cdn": "npm run build && alioss-upload"
   },
   "ci": {
     "version": "8"

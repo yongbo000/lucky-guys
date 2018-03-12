@@ -33,7 +33,7 @@ module.exports = appInfo => {
     '/favicon.ico': '',
   };
 
-  exports.assetsUrl = '//cdn-dolphinwit.oss-cn-beijing.aliyuncs.com/lucky-guys';
+  exports.assetsUrl = '//cdn-dolphinwit.oss-cn-beijing.aliyuncs.com/lucky-guys/jscss';
 
   return exports;
 };
