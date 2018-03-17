@@ -2,30 +2,45 @@ import './index.less';
 import Ractive from 'ractive';
 import keys from 'ractive-events-keys';
 import EventSource from 'eventsource';
-import context from 'context';
+import { user, logs } from 'context';
 import { postBless } from '../../service';
 import { popDm, proxy } from '../../util';
 
 const ractive = Ractive({
   target: '#app',
   template: `<div class="bless-block">
-    <div class="avatar">
-      <img src="{{avatar}}" />
+    <div class="fixed">
+      <div class="avatar">
+        <img src="{{avatar}}" />
+      </div>
+      <div class="words">
+        <p class="wxname">你好，{{name}}</p>
+        <p class="text">感谢来参加婚礼哦～</p>
+      </div>
+      <div class="input-wrap">
+        <input on-enter="@this.postBlessWords()" maxLength="30" class="input" type="text" value="{{blessWords}}" placeholder="发送祝福参与抽奖哦" autofocus tabIndex="1" />
+        <a class-disabled="!blessWords" class="post-btn" on-click="@this.postBlessWords()">发送</a>
+        <p class="err-tip">{{errMsg}}</p>
+      </div>
+      <div class="tx-block fn-clear">
+        <h3>特效：</h3>
+        <label class="option"><input type="checkbox" name="largefont" checked="{{magics.largefont}}" /><span>大字体</span></label>
+        <label class="option"><input type="checkbox" name="colorfull" checked="{{magics.colorfull}}" /><span>随机色彩</span></label>
+        <label class="option"><input type="checkbox" name="animscale" checked="{{magics.animscale}}" /><span>动画(弹弹)</span></label>
+      </div>
     </div>
-    <div class="words">
-      <p class="wxname">你好，{{name}}</p>
-      <p class="text">感谢来参加婚礼哦～</p>
-    </div>
-    <div class="input-wrap">
-      <input on-enter="@this.postBlessWords()" maxLength="30" class="input" type="text" value="{{blessWords}}" placeholder="发送祝福参与抽奖哦" autofocus tabIndex="1" />
-      <a class-disabled="!blessWords" class="post-btn" on-click="@this.postBlessWords()">发送</a>
-      <p class="err-tip">{{errMsg}}</p>
-    </div>
-    <div class="tx-block">
-      <h3>特效</h3>
-      <label class="option"><input type="checkbox" name="largefont" checked="{{magics.largefont}}" /><span>大字体</span></label>
-      <label class="option"><input type="checkbox" name="colorfull" checked="{{magics.colorfull}}" /><span>随机色彩</span></label>
-      <label class="option"><input type="checkbox" name="animscale" checked="{{magics.animscale}}" /><span>动画(弹弹)</span></label>
+    <div class="dm-logs">
+      <ul>
+        {{#each dmLogs}}
+        <li>
+          <img src="{{avatar}}" />
+          <div class="kuang">
+            <p>{{nikename}}</p>
+            <p>{{blesswords}}</p>
+          </div>
+        </li>
+        {{/each}}
+      </ul>
     </div>
     <div class="alivecount">实时在线人数：{{aliveCounts}}</div>
   </div>`,
@@ -34,11 +49,13 @@ const ractive = Ractive({
   },
   data: {
     dmQueue: [],
-    avatar: context.avatar,
-    name: context.nickname,
+    avatar: user.avatar,
+    name: user.nickname,
     blessWords: '',
     errMsg: '',
     aliveCounts: '--',
+    clientId: '',
+    dmLogs: logs,
     magics: {
       largefont: false,
       colorfull: false,
@@ -62,12 +79,23 @@ const ractive = Ractive({
       }
     },
     postBless(data) {
-      const dmQueue = this.get('dmQueue');
+      const dmQueue = this.get('dmQueue').slice(0);
+      const dmLogs = this.get('dmLogs').slice(0);
+      dmLogs.pop();
+      dmLogs.unshift({
+        nikename: data.nikename,
+        avatar: data.avatar,
+        blesswords: data.text,
+      });
       dmQueue.push(data);
+      this.set({
+        dmLogs,
+        dmQueue,
+      });
     },
-
     heartbeat(data) {
       this.set({
+        clientId: data.clientId,
         aliveCounts: data.aliveClients,
       });
     },
@@ -87,6 +115,7 @@ const ractive = Ractive({
       }
     }
     const resp = await postBless({
+      clientId: this.get('clientId'),
       blessWords: (workMagics.length ? '#' + workMagics.join(',') + '#' : '') + blessWords,
     });
     if (!resp.success) {

@@ -5,14 +5,15 @@
   "dependencies": {
     "axios": "^0.17.1",
     "egg": "^2.0.0",
-    "egg-eventsource": "^1.0.1",
+    "egg-eventsource": "^1.1.0",
     "egg-scripts": "^2.1.0",
-    "egg-staticlocal": "^0.5.0",
+    "egg-staticlocal": "^0.8.0",
     "egg-view-nunjucks": "^2.1.4",
     "egg-view-nunjucks-require": "^1.0.0",
     "eventsource": "^1.0.5",
     "globby": "^7.1.1",
     "is-type-of": "^1.2.0",
+    "leancloud-storage": "^3.6.0",
     "ractive-events-keys": "^0.2.1",
     "sort-object-keys": "^1.1.2"
   },

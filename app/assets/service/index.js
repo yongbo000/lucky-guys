@@ -10,10 +10,24 @@ function getCookie(name) {
 }
 
 module.exports = {
-  postBless({ blessWords }) {
+  postBless({ blessWords, clientId }) {
     return axios
       .post('/postBless.json', {
+        clientId,
         blessWords,
+        _csrf: getCookie('csrfToken'),
+      })
+      .then(resp => {
+        return resp.data;
+      })
+      .catch(e => {
+        console.error(e);
+        return {};
+      });
+  },
+  lottery() {
+    return axios
+      .post('/lottery.json', {
         _csrf: getCookie('csrfToken'),
       })
       .then(resp => {

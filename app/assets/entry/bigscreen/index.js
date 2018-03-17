@@ -5,7 +5,8 @@ import { popDm, proxy } from '../../util';
 
 const ractive = Ractive({
   target: '#app',
-  template: `<div class="avatarWall">
+  template: `<div class="blessWall">
+    <a on-click="@this.choujiang()">抽奖</a>
   </div>`,
   data: {
     dmQueue: [
@@ -34,8 +35,7 @@ const ractive = Ractive({
     popDm() {
       const dmQueue = this.get('dmQueue');
       while (dmQueue.length) {
-        const dm = dmQueue.shift();
-        popDm(dm);
+        popDm(dmQueue.shift());
       }
     },
     joined() {
@@ -48,6 +48,9 @@ const ractive = Ractive({
         this.fire('popDm');
       }
     },
+  },
+  choujiang() {
+    
   },
 });
 
