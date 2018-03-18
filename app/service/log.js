@@ -1,6 +1,7 @@
 const egg = require('egg');
 const AV = require('leancloud-storage');
-AV.init({ appId: 'wtqQjEJIHJxUnU93e3m1uuoY-gzGzoHsz', appKey: 'KdapXeNSACtjTigTG0CKBgX8', region: 'cn' });
+const leancloudConfig = require('../../config/leancloud.json');
+AV.init(leancloudConfig);
 
 const Log = AV.Object.extend('Log');
 const queryLog = new AV.Query('Log');
