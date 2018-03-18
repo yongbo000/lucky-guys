@@ -1,7 +1,14 @@
 const egg = require('egg');
 
 module.exports = app => {
+  function random(n, m) {
+    const c = m - n + 1;
+    return Math.floor(Math.random() * c + n);
+  }
 
+  const asyncCall = (asyncFn) => {
+    asyncFn();
+  }
 
   class DispatchController extends egg.Controller {
     async bigscreen() {
@@ -25,7 +32,16 @@ module.exports = app => {
     }
 
     async lottery() {
-
+      const { ctx } = this;
+      const users = await ctx.service.log.joinUserQuery();
+      if (users && users.length) {
+        asyncCall(async () => {
+          await new Promise(resolve => {
+            app.eventsource.broadcast('popLuckyUser', JSON.stringify(users[ random(0, users.length - 1) ]));
+            resolve();
+          });
+        });
+      }
     }
 
     async postBless() {
@@ -35,6 +51,9 @@ module.exports = app => {
         ctx.throwBizError('缺少祝福语');
       }
       const clientId = ctx.request.body.clientId;
+      if (!clientId) {
+        ctx.throwBizError('正在建立连接，请3s后重试');
+      }
       const nikename = ctx.user.nickname;
       const avatar = ctx.user.avatar;
       const openid = ctx.user.openid;
@@ -45,8 +64,16 @@ module.exports = app => {
         text: blessWords,
         time: Date.now(),
       };
-      app.eventsource.broadcast('postBless', JSON.stringify(payload));
-      await ctx.service.log.save({ clientId, blessWords, nikename, avatar, openid });
+
+      asyncCall(async () => {
+        await Promise.all([
+          new Promise(resolve => {
+            app.eventsource.broadcast('postBless', JSON.stringify(payload));
+            resolve();
+          }),
+          ctx.service.log.save({ clientId, blessWords, nikename, avatar, openid })
+        ]);
+      });
     }
   }
   return DispatchController;
