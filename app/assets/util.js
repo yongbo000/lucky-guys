@@ -66,6 +66,7 @@ module.exports = {
       $dm.find('.closePop').on('click', (e) => {
         $(e.target).parent().remove();
       });
+      jQuery('body').find('.red-bag').remove();
       $dm.appendTo('body');
     } else {
       $dm = jQuery(`<div class="dm-item">

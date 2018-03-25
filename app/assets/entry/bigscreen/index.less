@@ -123,3 +123,51 @@ body,html,.app {
     }
   }
 }
+
+.red-bag {
+  position: absolute;
+  width: 400px;
+  top: 50%;
+  left: 50%;
+  margin-top: -150px;
+  margin-left: -215px;
+  font-size: 28px;
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  border-radius: 10px;
+  text-align: center;
+  padding: 30px 15px;
+  img {
+    border-radius: 50% 50%;
+    width: 100px;
+    height: 100px;
+  }
+  p {
+    padding: 10px 0;
+  }
+  .closePop {
+    height: 36px;
+    width: 36px;
+    text-align: center;
+    line-height: 36px;
+    font-size: 26px;
+    border-radius: 50%;
+    display: block;
+    position: absolute;
+    color: #999;
+    font-weight: 400;
+    right: 10px;
+    top: 10px;
+    margin-left: -30px;
+    cursor: pointer;
+    &:hover {
+      color: #333;
+    }
+  }
+  span {
+    background: rgba(0,0,0,0.2);
+    color: #fff;
+    border-radius: 5px;
+    padding: 5px 15px;
+  }
+}

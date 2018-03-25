@@ -9,6 +9,7 @@ const dmQueue = logs.map(data => {
   return {
     text: data.blesswords,
     avatar: data.avatar,
+    nikename: data.nikename,
   };
 });
 
