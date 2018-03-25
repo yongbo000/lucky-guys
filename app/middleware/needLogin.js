@@ -8,7 +8,7 @@ module.exports = () => {
       };
       return await next();
     }
-    
+
     const avatar = ctx.getCookie('u_avatar');
     const nickname = ctx.getCookie('u_nickname');
     const openid = ctx.getCookie('openid');
@@ -17,7 +17,9 @@ module.exports = () => {
       if (ctx.isAjax) {
         return ctx.throwSlient('请登录后再试');
       }
-      return ctx.redirect('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx6a68c545d8e1300a&redirect_uri=http%3A%2F%2Foauth.dolphinwit.com%2Fwx%2FauthCallback&response_type=code&scope=snsapi_login');
+      const appid = ctx.app.config.wxOAuth.appid;
+      const redirect_uri = ctx.app.config.wxOAuth.redirect_uri;
+      return ctx.redirect(`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${encodeURIComponent(redirect_uri)}&response_type=code&scope=snsapi_userinfo`);
     }
 
     ctx.user = {

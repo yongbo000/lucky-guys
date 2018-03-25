@@ -83,7 +83,7 @@ const ractive = Ractive({
     }
     this.isLoading = true;
     this.showLoading();
-    const resp = await lottery();
+    await lottery();
     this.hideLoading();
     this.isLoading = false;
   },

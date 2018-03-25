@@ -6,9 +6,9 @@ module.exports = app => {
     return Math.floor(Math.random() * c + n);
   }
 
-  const asyncCall = (asyncFn) => {
+  const asyncCall = asyncFn => {
     asyncFn();
-  }
+  };
 
   class DispatchController extends egg.Controller {
     async bigscreen() {
@@ -71,7 +71,7 @@ module.exports = app => {
             app.eventsource.broadcast('postBless', JSON.stringify(payload));
             resolve();
           }),
-          ctx.service.log.save({ clientId, blessWords, nikename, avatar, openid })
+          ctx.service.log.save({ clientId, blessWords, nikename, avatar, openid }),
         ]);
       });
     }

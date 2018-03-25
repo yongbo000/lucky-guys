@@ -135,7 +135,7 @@ const es = new EventSource('/__eventsource');
 });
 
 let hasEsErr = false;
-es.on('error', (e) => {
+es.on('error', () => {
   hasEsErr = true;
   ractive.set({
     errMsg: '连接断开，正在尝试重新连接...',

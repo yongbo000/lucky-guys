@@ -8,8 +8,8 @@ const JoinUser = AV.Object.extend('JoinUser');
 const queryLog = new AV.Query('Log');
 const joinUserQuery = new AV.Query('JoinUser');
 
-module.exports = (app) => {
-  const excptionCallback = (e) => {
+module.exports = app => {
+  const excptionCallback = e => {
     app.logger.error(e);
     return null;
   };
@@ -18,32 +18,32 @@ module.exports = (app) => {
       queryLog.limit(10);
       queryLog.descending('createdAt');
       return queryLog
-          .find()
-          .then(logs => {
-            return logs.map(log => {
-              return {
-                clientId: log.get('clientId'),
-                blesswords: log.get('blesswords').replace(/#.+?#/g, ''),
-                nikename: log.get('nikename'),
-                avatar: log.get('avatar'),
-              };
-            });
-          })
-          .catch(excptionCallback);
+        .find()
+        .then(logs => {
+          return logs.map(log => {
+            return {
+              clientId: log.get('clientId'),
+              blesswords: log.get('blesswords').replace(/#.+?#/g, ''),
+              nikename: log.get('nikename'),
+              avatar: log.get('avatar'),
+            };
+          });
+        })
+        .catch(excptionCallback);
     }
     joinUserQuery() {
       return joinUserQuery
-          .find()
-          .then(logs => {
-            return logs.map(log => {
-              return {
-                openid: log.get('openid'),
-                avatar: log.get('avatar'),
-                nikename: log.get('nikename'),
-              };
-            });
-          })
-          .catch(excptionCallback);
+        .find()
+        .then(logs => {
+          return logs.map(log => {
+            return {
+              openid: log.get('openid'),
+              avatar: log.get('avatar'),
+              nikename: log.get('nikename'),
+            };
+          });
+        })
+        .catch(excptionCallback);
     }
     save({ clientId, blessWords, openid, nikename, avatar }) {
       const log = new Log();
@@ -69,10 +69,11 @@ module.exports = (app) => {
                 return joinUser.save().then(resolve).catch(excptionCallback);
               }
               resolve();
-          }).catch(excptionCallback);
+            })
+            .catch(excptionCallback);
         }),
       ]).catch(excptionCallback);
     }
-  };
+  }
   return LogService;
 };

@@ -1,4 +1,5 @@
 const path = require('path');
+const wxOAuthConfig = require('./wxoauth');
 
 module.exports = appInfo => {
   const baseAppDir = appInfo.baseDir;
@@ -33,7 +34,10 @@ module.exports = appInfo => {
     '/favicon.ico': '',
   };
 
-  exports.assetsUrl = '//cdn-dolphinwit.oss-cn-beijing.aliyuncs.com/lucky-guys/jscss';
+  exports.wxOAuth = {
+    appid: wxOAuthConfig.appid,
+    redirect_uri: wxOAuthConfig.redirect_uri,
+  };
 
   return exports;
 };
