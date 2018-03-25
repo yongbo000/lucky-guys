@@ -1,5 +1,5 @@
 const path = require('path');
-const wxOAuthConfig = require('./wxoauth');
+const wxOAuthConfig = require('./wxoauth.json');
 
 module.exports = appInfo => {
   const baseAppDir = appInfo.baseDir;
@@ -34,7 +34,7 @@ module.exports = appInfo => {
     '/favicon.ico': '',
   };
 
-  exports.wxOauth = {
+  exports.wxOAuth = {
     appid: wxOAuthConfig.appid,
     redirect_uri: wxOAuthConfig.redirect_uri,
   };

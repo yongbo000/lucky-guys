@@ -23,7 +23,7 @@ module.exports = app => {
           return logs.map(log => {
             return {
               clientId: log.get('clientId'),
-              blesswords: log.get('blesswords').replace(/#.+?#/g, ''),
+              blesswords: log.get('blesswords'),
               nikename: log.get('nikename'),
               avatar: log.get('avatar'),
             };

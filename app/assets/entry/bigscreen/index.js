@@ -3,73 +3,76 @@ import Ractive from 'ractive';
 import EventSource from 'eventsource';
 import { popDm, proxy } from '../../util';
 import { lottery } from '../../service';
+import { logs } from 'context';
+
+const dmQueue = logs.map(data => {
+  return {
+    text: data.blesswords,
+    avatar: data.avatar,
+  };
+});
 
 const ractive = Ractive({
   target: '#app',
   template: `<div class="blessWall">
-    {{#if luckyUser}}
+    {{#if popshow}}
     <div class="luckyUser">
       <img src="{{luckyUser.avatar}}" />
       <p class="nikename">{{luckyUser.nikename}}</p>
       <a class="closePop" on-click="@this.closePop()">✕</a>
     </div>
     {{/if}}
+    {{#if loading}}
+    <div class="loading">正在抽奖中...</div>
+    {{/if}}
+    {{#if noGuys}}
+    <div class="no-guys">无人中奖，再抽一次吧</div>
+    {{/if}}
     <a class="lotteryBtn" on-click="@this.startLottery()">抽奖</a>
   </div>`,
   data: {
-    show: false,
+    popshow: false,
     luckyUser: null,
-    dmQueue: [
-      {
-        text: '我是弹幕啦啦啦啦',
-        avatar: 'http://cdn-dolphinwit.oss-cn-beijing.aliyuncs.com/images/pc/default_avatar.png',
-      },
-      {
-        text: '我啦啦啦',
-        avatar: 'http://cdn-dolphinwit.oss-cn-beijing.aliyuncs.com/images/pc/default_avatar.png',
-      },
-      {
-        text: '我是啦啦啦',
-        avatar: 'http://cdn-dolphinwit.oss-cn-beijing.aliyuncs.com/images/pc/default_avatar.png',
-      },
-      {
-        text: '我是弹幕啦啦啦啦啦啦啦啦啦啦',
-        avatar: 'http://cdn-dolphinwit.oss-cn-beijing.aliyuncs.com/images/pc/default_avatar.png',
-      },
-    ],
+    noGuys: false,
+    dmQueue,
   },
   on: {
     init() {
-      this.fire('popDm');
+      setInterval(() => {
+        const dmQueue = this.get('dmQueue');
+        if (dmQueue.length) {
+          this.fire('popDm');
+        }
+      }, 1000);
     },
     popDm() {
       const dmQueue = this.get('dmQueue');
-      while (dmQueue.length) {
+      while (dmQueue.length && jQuery('.dm-item').length <= 20) {
         popDm(dmQueue.shift());
       }
-    },
-    joined() {
-
     },
     postBless(data) {
       const dmQueue = this.get('dmQueue');
       dmQueue.push(data);
-      if (dmQueue.length) {
-        this.fire('popDm');
-      }
     },
     popLuckyUser(data) {
       this.set({
-        show: true,
+        popshow: true,
         luckyUser: data,
       });
     },
   },
   showLoading() {
-    console.log('showLoading');
+    this.set({
+      noGuys: false,
+      popshow: false,
+      loading: true,
+    });
   },
   hideLoading() {
-    console.log('hideLoading');
+    this.set({
+      loading: false,
+    });
   },
   closePop() {
     this.set({
@@ -83,13 +86,21 @@ const ractive = Ractive({
     }
     this.isLoading = true;
     this.showLoading();
-    await lottery();
+    const resp = await lottery();
+    if (resp.success && resp.result) {
+      this.fire('popLuckyUser', resp.result);
+    } else {
+      this.set({
+        noGuys: true,
+        popshow: false,
+      });
+    }
     this.hideLoading();
     this.isLoading = false;
   },
 });
 
 const es = new EventSource('/__eventsource');
-[ 'postBless', 'popLuckyUser' ].forEach(evtName => {
+[ 'postBless' ].forEach(evtName => {
   es.on(evtName, proxy(evtName, ractive));
 });

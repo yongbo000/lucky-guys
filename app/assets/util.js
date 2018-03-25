@@ -54,7 +54,7 @@ module.exports = {
         magicFn[mgc]($dm);
       }
     });
-    const top = random(0, 80);
+    const top = random(0, 85);
     const left = random(90, 110);
     const speed = random(5, 10);
     const time = Math.floor(left * 1000 / speed);
@@ -65,7 +65,7 @@ module.exports = {
       })
       .appendTo('body')
       .animate({
-        left: '-100%',
+        left: '-50%',
       }, time, 'linear', () => {
         $dm.remove();
       });

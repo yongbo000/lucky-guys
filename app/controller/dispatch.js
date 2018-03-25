@@ -10,10 +10,17 @@ module.exports = app => {
     asyncFn();
   };
 
+  const luckyUserCache = [];
+
   class DispatchController extends egg.Controller {
     async bigscreen() {
       const { ctx } = this;
-      await ctx.render('bigScreen.html');
+      const logs = await ctx.service.log.topQuery();
+      await ctx.render('bigScreen.html', {
+        context: {
+          logs,
+        },
+      });
     }
 
     async bless() {
@@ -26,21 +33,35 @@ module.exports = app => {
       await ctx.render('bless.html', {
         context: {
           user,
-          logs,
+          logs: logs.map(it => {
+            it.blesswords = it.blesswords.replace(/#.+?#/g, '');
+            return it;
+          }),
         },
       });
     }
 
     async lottery() {
       const { ctx } = this;
-      const users = await ctx.service.log.joinUserQuery();
+      let users = await ctx.service.log.joinUserQuery();
+      users = users.filter(u => {
+        return luckyUserCache.indexOf(u.openid) === -1;
+      });
       if (users && users.length) {
-        asyncCall(async () => {
-          await new Promise(resolve => {
-            app.eventsource.broadcast('popLuckyUser', JSON.stringify(users[ random(0, users.length - 1) ]));
-            resolve();
+        const luckyGuy = users[ random(0, users.length - 1) ];
+        ctx.logger.info('[lottery] luckyguys=%j', luckyGuy);
+        if (luckyGuy) {
+          luckyUserCache.indexOf(luckyGuy.openid) === -1 && luckyUserCache.push(luckyGuy.openid);
+          asyncCall(async () => {
+            await new Promise(resolve => {
+              app.eventsource.broadcast('popLuckyUser', JSON.stringify(luckyGuy));
+
+              resolve();
+            });
           });
-        });
+          ctx.body = luckyGuy;
+          return;
+        }
       }
     }
 
