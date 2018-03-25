@@ -34,10 +34,12 @@ module.exports = appInfo => {
     '/favicon.ico': '',
   };
 
-  exports.wxOAuth = {
+  exports.wxOauth = {
     appid: wxOAuthConfig.appid,
     redirect_uri: wxOAuthConfig.redirect_uri,
   };
+
+  exports.assetsUrl = '//cdn-dolphinwit.oss-cn-beijing.aliyuncs.com/lucky-guys/jscss';
 
   return exports;
 };
