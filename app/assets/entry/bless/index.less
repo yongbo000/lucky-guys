@@ -83,6 +83,21 @@ html,body,.app {
     background: #ccc;
     color: #808080;
   }
+  .redbagTag {
+    position: relative;
+    &:after {
+      background: #f60;
+      display: block;
+      position: absolute;
+      right: 0;
+      top: 0.1rem;
+      content: "口令红包";
+      color: #fff;
+      font-size: 0.2rem;
+      border-radius: 5px;
+      padding: 0.03rem 0.1rem;
+    }
+  }
 }
 .dm-item {
   position: fixed;
@@ -104,6 +119,52 @@ html,body,.app {
   span {
     color: #fff;
     white-space: pre;
+  }
+}
+.red-bag {
+  position: absolute;
+  width: 4rem;
+  top: 50%;
+  left: 50%;
+  margin-top: -1.5rem;
+  margin-left: -2rem;
+  font-size: 0.28rem;
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0 0 0.1rem rgba(0,0,0,0.5);
+  border-radius: 0.1rem;
+  text-align: center;
+  padding: 0.3rem 0.15rem;
+  img {
+    border-radius: 50% 50%;
+    width: 1rem;
+    height: 1rem;
+  }
+  p {
+    padding: 0.1rem 0;
+  }
+  .closePop {
+    height: 0.6rem;
+    width: 0.6rem;
+    text-align: center;
+    line-height: 0.6rem;
+    font-size: 0.32rem;
+    border-radius: 50%;
+    display: block;
+    background: rgba(255,255,255,0.5);
+    position: absolute;
+    color: #999;
+    font-weight: 400;
+    left: 50%;
+    bottom: -1rem;
+    margin-left: -0.3rem;
+    cursor: pointer;
+    box-shadow: 0 0 0.1rem rgba(0,0,0,0.5);
+  }
+  span {
+    background: rgba(0,0,0,0.2);
+    color: #fff;
+    border-radius: 0.05rem;
+    padding: 0.05rem 0.15rem;
   }
 }
 
@@ -142,7 +203,7 @@ html,body,.app {
     transform: scale(1);
   }
   50% {
-    transform: scale(1.1);
+    transform: scale(1.08);
   }
   100% {
     transform: scale(1);
@@ -189,6 +250,7 @@ html,body,.app {
       background: #fff;
       border-radius: 0.04rem;
       padding: 0 0.2rem 0.2rem;
+      box-shadow: 0.01rem 0.01rem 0.2rem rgba(0,0,0,0.1);
       p {
         color: #808080;
         font-size: 0.32rem;

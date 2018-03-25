@@ -33,10 +33,7 @@ module.exports = app => {
       await ctx.render('bless.html', {
         context: {
           user,
-          logs: logs.map(it => {
-            it.blesswords = it.blesswords.replace(/#.+?#/g, '');
-            return it;
-          }),
+          logs,
         },
       });
     }

@@ -43,7 +43,7 @@ const ractive = Ractive({
         if (dmQueue.length) {
           this.fire('popDm');
         }
-      }, 1000);
+      }, 500);
     },
     popDm() {
       const dmQueue = this.get('dmQueue');
@@ -76,7 +76,7 @@ const ractive = Ractive({
   },
   closePop() {
     this.set({
-      show: false,
+      popshow: false,
       luckyUser: null,
     });
   },

@@ -23,6 +23,7 @@ const ractive = Ractive({
     </div>
     <div class="tx-block fn-clear">
       <h3>特效：</h3>
+      <label class="option"><input type="checkbox" name="redbag" checked="{{magics.redbag}}" /><span>口令</span></label>
       <label class="option"><input type="checkbox" name="largefont" checked="{{magics.largefont}}" /><span>大字体</span></label>
       <label class="option"><input type="checkbox" name="colorfull" checked="{{magics.colorfull}}" /><span>随机色彩</span></label>
       <label class="option"><input type="checkbox" name="animscale" checked="{{magics.animscale}}" /><span>动画(弹弹)</span></label>
@@ -33,8 +34,8 @@ const ractive = Ractive({
         <li>
           <img src="{{avatar}}" />
           <div class="kuang">
-            <p>{{nikename}}</p>
-            <p>{{blesswords}}</p>
+            <p class-redbagTag="redbagFlag">{{nikename}}</p>
+            <p>{{blesswords.replace(/#.+?#/g, '')}}</p>
           </div>
         </li>
         {{/each}}
@@ -53,8 +54,12 @@ const ractive = Ractive({
     errMsg: '',
     aliveCounts: '--',
     clientId: '',
-    dmLogs: logs,
+    dmLogs: logs.map(log => {
+      log.redbagFlag = log.blesswords.indexOf('redbag') > -1;
+      return log;
+    }),
     magics: {
+      redbag: false,
       largefont: false,
       colorfull: false,
       animscale: false,
@@ -67,11 +72,11 @@ const ractive = Ractive({
         if (dmQueue.length) {
           this.fire('popDm');
         }
-      }, 1000);
+      }, 500);
     },
     popDm() {
       const dmQueue = this.get('dmQueue');
-      while (dmQueue.length) {
+      while (dmQueue.length && jQuery('.dm-item').length <= 20) {
         const dm = dmQueue.shift();
         popDm(dm);
       }
@@ -84,6 +89,7 @@ const ractive = Ractive({
         nikename: data.nikename,
         avatar: data.avatar,
         blesswords: data.text.replace(/#.+?#/g, ''),
+        redbagFlag: data.text.indexOf('redbag') > -1,
       });
       dmQueue.push(data);
       this.set({
