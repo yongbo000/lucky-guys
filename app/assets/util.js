@@ -59,12 +59,12 @@ module.exports = {
     if (magics.indexOf('redbag') > -1) {
       $dm = jQuery(`<div class="red-bag">
         <img src="${dm.avatar}" />
-        <p>${dm.nikename}发来口令红包</p>
-        <span>${dm.text}</span>
+        <p class="nikename">${dm.nikename}发来口令红包</p>
+        <p class="kl">${dm.text}</p>
         <a class="closePop">✕</a>
       </div>`);
-      $dm.find('.closePop').on('click', (e) => {
-        $(e.target).parent().remove();
+      $dm.find('.closePop').on('click', e => {
+        jQuery(e.target).parent().remove();
       });
       jQuery('body').find('.red-bag').remove();
       $dm.appendTo('body');

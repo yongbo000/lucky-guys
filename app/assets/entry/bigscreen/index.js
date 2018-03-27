@@ -5,7 +5,19 @@ import { popDm, proxy } from '../../util';
 import { lottery } from '../../service';
 import { logs } from 'context';
 
+let once = false;
 const dmQueue = logs.map(data => {
+  const m = data.blesswords.match(/^#(.+)?#/);
+  if (m) {
+    const magics = m[1].split(',');
+    if (magics.indexOf('redbag') > -1) {
+      if (once) {
+        data.blesswords = data.blesswords.replace(/^#.+#/, '');
+      } else {
+        once = true;
+      }
+    }
+  }
   return {
     text: data.blesswords,
     avatar: data.avatar,

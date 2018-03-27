@@ -17,3 +17,5 @@ app/public/*.txt
 .aliossrc
 leancloud.json
 wxoauth.json
+*.crt
+*.key

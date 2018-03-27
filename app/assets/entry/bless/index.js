@@ -9,17 +9,21 @@ import { popDm, proxy } from '../../util';
 const ractive = Ractive({
   target: '#app',
   template: `<div class="bless-block">
-    <div class="avatar">
-      <img src="{{avatar}}" />
-    </div>
-    <div class="words">
-      <p class="wxname">你好，{{name}}</p>
-      <p class="text">感谢来参加婚礼哦～</p>
+    <div class="banner">
+      <div class="avatar">
+        <img src="{{avatar}}" />
+      </div>
+      <div class="words">
+        <p class="wxname">你好，{{name}}</p>
+        <p class="text">感谢来参加婚礼哦～</p>
+      </div>
     </div>
     <div class="input-wrap">
       <input on-enter="@this.postBlessWords()" maxLength="30" class="input" type="text" value="{{blessWords}}" placeholder="发送祝福参与抽奖哦" autofocus tabIndex="1" />
       <a class-disabled="!blessWords" class="post-btn" on-click="@this.postBlessWords()">发送</a>
+      {{#if errMsg}}
       <p class="err-tip">{{errMsg}}</p>
+      {{/if}}
     </div>
     <div class="tx-block fn-clear">
       <h3>特效：</h3>
@@ -41,7 +45,10 @@ const ractive = Ractive({
         {{/each}}
       </ul>
     </div>
-    <div class="alivecount">实时在线人数：{{aliveCounts}}</div>
+    <div class="alivecount">
+      <p>实时在线人数：{{aliveCounts}}</p>
+      <p>页面由 <a href="https://h5.dolphinwit.com/invite/register.html?_chinfo=wx_promo_1">注册即送2000美元的海豚外汇</a> 技术支持</p>
+    </div>
   </div>`,
   events: {
     enter: keys.enter,

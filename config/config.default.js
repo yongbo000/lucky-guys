@@ -8,6 +8,7 @@ module.exports = appInfo => {
   exports.proxy = true;
 
   exports.middleware = [
+    'httpsOnly',
     'responseWrapper',
   ];
 
