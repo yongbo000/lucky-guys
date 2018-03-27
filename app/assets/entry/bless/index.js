@@ -111,7 +111,22 @@ const ractive = Ractive({
       });
     },
   },
+  showLoading() {
+    this.set({
+      isLoading: true,
+      errMsg: '正在发送...',
+    });
+  },
+  hideLoading() {
+    this.set({
+      isLoading: false,
+      errMsg: '',
+    });
+  },
   async postBlessWords() {
+    if (this.get('isLoading')) {
+      return;
+    }
     const blessWords = this.get('blessWords').trim();
     if (!blessWords) {
       return this.set({
@@ -125,10 +140,12 @@ const ractive = Ractive({
         workMagics.push(k);
       }
     }
+    this.showLoading();
     const resp = await postBless({
       clientId: this.get('clientId'),
       blessWords: (workMagics.length ? '#' + workMagics.join(',') + '#' : '') + blessWords,
     });
+    this.hideLoading();
     if (!resp.success) {
       this.set({
         errMsg: resp.message || '太火爆了，请再试一次吧',
