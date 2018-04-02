@@ -15,7 +15,7 @@ module.exports = app => {
   };
   class LogService extends egg.Service {
     topQuery() {
-      queryLog.limit(10);
+      queryLog.limit(20);
       queryLog.descending('createdAt');
       return queryLog
         .find()
@@ -29,6 +29,11 @@ module.exports = app => {
             };
           });
         })
+        .catch(excptionCallback);
+    }
+    blessCount() {
+      return queryLog
+        .count()
         .catch(excptionCallback);
     }
     joinUserQuery() {

@@ -2,7 +2,7 @@ import './index.less';
 import Ractive from 'ractive';
 import keys from 'ractive-events-keys';
 import EventSource from 'eventsource';
-import { user, logs } from 'context';
+import { user, logs, joinedUserCount, blessCount } from 'context';
 import { postBless } from '../../service';
 import { popDm, proxy } from '../../util';
 
@@ -44,6 +44,7 @@ const ractive = Ractive({
         </li>
         {{/each}}
       </ul>
+      <p class="joinedUserCount">总人数：{{joinedUserCount}}，总祝福数：{{blessCount}}</p>
     </div>
     <div class="alivecount">
       <p>实时在线人数：{{aliveCounts}}</p>
@@ -55,6 +56,8 @@ const ractive = Ractive({
   },
   data: {
     dmQueue: [],
+    blessCount,
+    joinedUserCount,
     avatar: user.avatar,
     name: user.nickname,
     blessWords: '',

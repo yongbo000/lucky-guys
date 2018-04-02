@@ -26,14 +26,20 @@ module.exports = app => {
     async bless() {
       const { ctx } = this;
       const user = {
-        avatar: ctx.user.avatar || 'http://cdn-dolphinwit.oss-cn-beijing.aliyuncs.com/lucky-guys/images/default_avatar.jpg',
+        avatar: ctx.user.avatar || 'https://cdn-dolphinwit.oss-cn-beijing.aliyuncs.com/lucky-guys/images/default_avatar.jpg',
         nickname: ctx.user.nickname || '--',
       };
-      const logs = await ctx.service.log.topQuery();
+      const [ logs, list, blessCount ] = await Promise.all([
+        ctx.service.log.topQuery(),
+        ctx.service.log.joinUserQuery(),
+        ctx.service.log.blessCount(),
+      ]);
       await ctx.render('bless.html', {
         context: {
           user,
           logs,
+          blessCount: blessCount || '--',
+          joinedUserCount: list && list.length || '--',
         },
       });
     }
@@ -52,7 +58,6 @@ module.exports = app => {
           asyncCall(async () => {
             await new Promise(resolve => {
               app.eventsource.broadcast('popLuckyUser', JSON.stringify(luckyGuy));
-
               resolve();
             });
           });
