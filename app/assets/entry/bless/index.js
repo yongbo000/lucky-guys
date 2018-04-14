@@ -48,7 +48,7 @@ const ractive = Ractive({
     </div>
     <div class="alivecount">
       <p>实时在线人数：{{aliveCounts}}</p>
-      <p>页面由 <a href="https://h5.dolphinwit.com/invite/register.html?_chinfo=wx_promo_1">注册即送2000美元的海豚外汇</a> 技术支持</p>
+      <p>页面由 <a href="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzI1NDUxMDgyNQ==">注册即送2000美元的海豚外汇</a> 技术支持</p>
     </div>
   </div>`,
   events: {
