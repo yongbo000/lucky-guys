@@ -1,3 +1,71 @@
+.animated {
+  -webkit-animation-duration: 2s;
+  animation-duration: 2s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+.animated.infinite {
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+}
+
+@-webkit-keyframes shake {
+  from,
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    -webkit-transform: translate3d(-0.1rem, 0, 0);
+    transform: translate3d(-0.1rem, 0, 0);
+  }
+
+  20%,
+  40%,
+  60%,
+  80% {
+    -webkit-transform: translate3d(0.1rem, 0, 0);
+    transform: translate3d(0.1rem, 0, 0);
+  }
+}
+
+@keyframes shake {
+  from,
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    -webkit-transform: translate3d(-0.1rem, 0, 0);
+    transform: translate3d(-0.1rem, 0, 0);
+  }
+
+  20%,
+  40%,
+  60%,
+  80% {
+    -webkit-transform: translate3d(0.1rem, 0, 0);
+    transform: translate3d(0.1rem, 0, 0);
+  }
+}
+
+.shake {
+  -webkit-animation-name: shake;
+  animation-name: shake;
+  animation-delay: 2s;
+}
+
 html,body,.app {
   height: 100%;
   width: 100%;
@@ -252,6 +320,43 @@ html,body,.app {
   }
   text-align: center;
   padding: 0.2rem 0.1rem;
+  .ewm-s {
+    position: absolute;
+    top: -0.5rem;
+    right: 0.3rem;
+    height: 0.4rem;
+    width: 0.4rem;
+  }
+  .gz2em, .showsmall, .ewm-b {
+    display: none;
+  }
+}
+.bigger {
+  .ewm-s {
+    display: none;
+  }
+  .showsmall {
+    display: block;
+    position: absolute;
+    right: 0.4rem;
+    top: 0.1rem;
+    font-size: 0.32rem;
+    color: #999;
+  }
+  .gz2em {
+    display: block;
+    margin-top: 0.1rem;
+    margin-bottom: 0.3rem;
+  }
+  .ewm-b {
+    position: relative;
+    height: 2.5rem;
+    width: 2.5rem;
+    display: block;
+    margin: 0 auto;
+    right: auto;
+    top: auto;
+  }
 }
 .dm-logs, .tx-block {
   background: #f9f9f9;

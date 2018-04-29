@@ -46,7 +46,11 @@ const ractive = Ractive({
       </ul>
       <p class="joinedUserCount">参与人数：{{joinedUserCount}}，总祝福数：{{blessCount}}</p>
     </div>
-    <div class="alivecount">
+    <div class-bigger="bigger" class="alivecount">
+      <a class="showsmall" on-click="@this.showSmall()">✕</a>
+      <img on-click="@this.showBig()" class="ewm-s animated shake" src="http://cdn-dolphinwit.oss-cn-beijing.aliyuncs.com/lucky-guys/images/2wm.svg" />
+      <img class="ewm-b" src="http://cdn-dolphinwit.oss-cn-beijing.aliyuncs.com/lucky-guys/images/qrcode_for_gh_e425e8513241_258.jpg" />
+      <p class="gz2em">长按二维码关注 海豚外汇</p>
       <p>实时在线人数：{{aliveCounts}}</p>
       <p>页面由 <a href="https://h5.dolphinwit.com/invite/register.html?_chinfo=wx_promo_1">注册即送2000美元的海豚外汇</a> 技术支持</p>
     </div>
@@ -55,6 +59,7 @@ const ractive = Ractive({
     enter: keys.enter,
   },
   data: {
+    // bigger: true,
     dmQueue: [],
     blessCount,
     joinedUserCount,
@@ -113,6 +118,16 @@ const ractive = Ractive({
         aliveCounts: data.aliveClients,
       });
     },
+  },
+  showBig() {
+    this.set({
+      bigger: true,
+    });
+  },
+  showSmall() {
+    this.set({
+      bigger: false,
+    });
   },
   showLoading() {
     this.set({

@@ -11,7 +11,7 @@ module.exports = app => {
     asyncFn();
   };
 
-  const luckyUserCache = [];
+  let luckyUserCache = [];
 
   class DispatchController extends egg.Controller {
     async bigscreen() {
@@ -101,6 +101,12 @@ module.exports = app => {
           ctx.service.log.save({ clientId, blessWords, nikename, avatar, openid }),
         ]);
       });
+    }
+
+    async cleanCache() {
+      const { ctx } = this;
+      luckyUserCache = [];
+      ctx.body = '清除缓存成功';
     }
   }
   return DispatchController;

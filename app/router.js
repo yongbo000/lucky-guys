@@ -4,4 +4,5 @@ module.exports = app => {
   router.post('/postBless.json', middleware.needLogin(), app.controller.dispatch.postBless);
   router.get('/bless.html', middleware.needLogin(), app.controller.dispatch.bless);
   router.post('/lottery.json', app.controller.dispatch.lottery);
+  router.get('/cleanCache.html', app.controller.dispatch.cleanCache);
 };
