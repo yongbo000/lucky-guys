@@ -45,6 +45,7 @@ module.exports = app => {
               openid: log.get('openid'),
               avatar: log.get('avatar'),
               nikename: log.get('nikename'),
+              createdAt: log.get('createdAt'),
             };
           });
         })

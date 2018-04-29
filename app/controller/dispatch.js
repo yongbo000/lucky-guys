@@ -1,4 +1,5 @@
 const egg = require('egg');
+const moment = require('moment');
 
 module.exports = app => {
   function random(n, m) {
@@ -47,6 +48,9 @@ module.exports = app => {
     async lottery() {
       const { ctx } = this;
       let users = await ctx.service.log.joinUserQuery();
+      users = users.filter(u => {
+        return moment(u.createdAt).format('YYYYMMDD') === moment().format('YYYYMMDD');
+      });
       users = users.filter(u => {
         return luckyUserCache.indexOf(u.openid) === -1;
       });

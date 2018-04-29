@@ -107,4 +107,5 @@ module.exports = {
       ractive.fire(evt, data);
     };
   },
+  random,
 };

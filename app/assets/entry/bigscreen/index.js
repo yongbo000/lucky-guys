@@ -1,9 +1,17 @@
 import './index.less';
 import Ractive from 'ractive';
 import EventSource from 'eventsource';
-import { popDm, proxy } from '../../util';
+import { popDm, proxy, random } from '../../util';
 import { lottery } from '../../service';
 import { logs } from 'context';
+
+const delay = () => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve();
+    }, random(1500, 3000));
+  });
+};
 
 let once = false;
 const dmQueue = logs.map(data => {
@@ -36,10 +44,13 @@ const ractive = Ractive({
     </div>
     {{/if}}
     {{#if loading}}
-    <div class="loading">正在抽奖中...</div>
+    <div class="loading">
+      <img src="http://cdn-dolphinwit.oss-cn-beijing.aliyuncs.com/lucky-guys/images/loading.svg" /> 
+      <p>正在思考🤔...</p>
+    </div>
     {{/if}}
     {{#if noGuys}}
-    <div class="no-guys">无人中奖，再抽一次吧</div>
+    <div class="no-guys">😯无人中奖，再抽一次吧</div>
     {{/if}}
     <a class="lotteryBtn" on-click="@this.startLottery()">抽奖</a>
   </div>`,
@@ -101,6 +112,7 @@ const ractive = Ractive({
     this.showLoading();
     const resp = await lottery();
     if (resp.success && resp.result) {
+      await delay();
       this.fire('popLuckyUser', resp.result);
     } else {
       this.set({
