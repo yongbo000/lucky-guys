@@ -45,7 +45,7 @@ module.exports = app => {
               openid: log.get('openid'),
               avatar: log.get('avatar'),
               nikename: log.get('nikename'),
-              createdAt: log.get('createdAt'),
+              updatedAt: log.get('updatedAt'),
             };
           });
         })
@@ -64,15 +64,20 @@ module.exports = app => {
         new Promise(resolve => {
           new AV.Query('JoinUser')
             .equalTo('openid', openid)
-            .count()
-            .then(count => {
-              if (count === 0) {
+            .find()
+            .then(resp => {
+              if (resp.length === 0) {
                 const joinUser = new JoinUser();
                 joinUser.set('openid', openid);
                 joinUser.set('nikename', nikename);
                 joinUser.set('avatar', avatar);
                 joinUser.set('isLucky', false);
+                joinUser.set('updateCount', 0);
                 return joinUser.save().then(resolve).catch(excptionCallback);
+              } else {
+                const user = resp[0];
+                const sql = `update JoinUser set updateCount = ${user.get('updateCount') + 1} where objectId="${user.get('objectId')}"`;
+                return AV.Query.doCloudQuery(sql).then(resolve).catch(excptionCallback);
               }
               resolve();
             })

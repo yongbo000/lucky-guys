@@ -49,7 +49,7 @@ module.exports = app => {
       const { ctx } = this;
       let users = await ctx.service.log.joinUserQuery();
       users = users.filter(u => {
-        return moment(u.createdAt).format('YYYYMMDD') === moment().format('YYYYMMDD');
+        return moment(u.updatedAt).format('YYYYMMDD') === moment().format('YYYYMMDD');
       });
       users = users.filter(u => {
         return luckyUserCache.indexOf(u.openid) === -1;
